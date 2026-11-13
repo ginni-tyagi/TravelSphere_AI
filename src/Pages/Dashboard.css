@@ -1,0 +1,288 @@
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background: #f4f7fb;
+  color: #263449;
+  font-family: Arial, sans-serif;
+}
+
+/* Sidebar */
+.dash-sidebar {
+  width: 245px;
+  background: #172c43;
+  color: white;
+  padding: 25px 18px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.dash-sidebar h2 {
+  font-size: 19px;
+  margin-bottom: 40px;
+}
+
+.dash-sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dash-sidebar a {
+  color: #dce6f0;
+  text-decoration: none;
+  padding: 13px;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.dash-sidebar nav a:hover,
+.dash-sidebar nav .active {
+  background: #31516f;
+  color: white;
+}
+
+.dash-sidebar .dash-logout {
+  margin-top: auto;
+  color: #ffcccc;
+}
+
+/* Main */
+.dash-main {
+  flex: 1;
+  padding: 35px;
+  min-width: 0;
+}
+
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.dash-header h1 {
+  font-size: 27px;
+  margin-bottom: 8px;
+}
+
+.dash-header p {
+  color: #78879a;
+}
+
+.dash-avatar {
+  background: white;
+  padding: 14px;
+  border-radius: 50%;
+  font-size: 25px;
+}
+
+/* Banner */
+.dash-banner {
+  margin-top: 30px;
+  padding: 30px;
+  border-radius: 18px;
+  background: linear-gradient(120deg, #315d7c, #6196a5);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.dash-banner h2 {
+  font-size: 24px;
+}
+
+.dash-banner p {
+  line-height: 1.6;
+}
+
+.dash-banner > span {
+  font-size: 65px;
+}
+
+.dash-create-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 18px;
+  background: white;
+  color: #315d7c;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Statistics */
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-top: 25px;
+}
+
+.dash-stat-card {
+  padding: 23px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px #00000008;
+}
+
+.dash-stat-card span {
+  font-size: 27px;
+}
+
+.dash-stat-card h3 {
+  font-size: 25px;
+  margin: 12px 0 5px;
+}
+
+.dash-stat-card p {
+  color: #78879a;
+  font-size: 14px;
+}
+
+/* Recent Trips */
+.dash-trips {
+  margin-top: 35px;
+}
+
+.dash-section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dash-section-heading a {
+  color: #397b91;
+  text-decoration: none;
+}
+
+.dash-empty {
+  margin-top: 18px;
+  padding: 40px 15px;
+  background: white;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.dash-empty span {
+  font-size: 45px;
+}
+
+.dash-empty p {
+  color: #78879a;
+}
+
+.dash-empty a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 11px 20px;
+  background: #315d7c;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+/* Responsive */
+@media (max-width: 750px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .dash-sidebar {
+    width: 100%;
+  }
+
+  .dash-sidebar nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .dash-sidebar .dash-logout {
+    margin-top: 15px;
+  }
+
+  .dash-main {
+    padding: 20px;
+  }
+
+  .dash-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+  }
+
+  .dashboard-content {
+    width: 100%;
+    padding: 20px 15px;
+    box-sizing: border-box;
+  }
+
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Dashboard Text Visibility Fix */
+
+.dash-header h1 {
+  color: #222222 !important;
+}
+
+.dash-header p {
+  color: #444444 !important;
+}
+
+.dash-section-heading h2 {
+  color: #222222 !important;
+}
+
+.dash-stat-card h3 {
+  color: #222222 !important;
+}
+
+.dash-stat-card p {
+  color: #444444 !important;
+}
+
+.dash-empty h3 {
+  color: #222222 !important;
+}
+
+.dash-empty p {
+  color: #444444 !important;
+}
+
+.dash-sidebar h2 {
+  color: #ffffff !important;
+}
+
+.dash-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 55px;
+  height: 55px;
+  padding: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.dash-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

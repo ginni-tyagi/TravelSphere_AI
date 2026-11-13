@@ -1,0 +1,69 @@
+
+.trip-details {
+  min-height: 100vh;
+  padding: 40px;
+  background: #f5f3ff;
+  font-family: Arial, sans-serif;
+  color: #333333;
+}
+
+.trip-details > a {
+  color: #5b3fa3;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.trip-details h1 {
+  color: #252525;
+  margin: 25px 0;
+  font-weight: 700;
+}
+
+.trip-details h2 {
+  color: #333333;
+  margin: 25px 0;
+}
+
+.details-card,
+.trip-details .itinerary-card {
+  background: white;
+  padding: 22px;
+  margin: 15px 0;
+  border-radius: 12px;
+  max-width: 650px;
+  box-shadow: 0 4px 15px #ddd;
+}
+
+.details-card p {
+  color: #444444;
+  margin: 12px 0;
+}
+
+.trip-details .itinerary-card h3 {
+  color: #4b3288;
+}
+
+.trip-details .itinerary-card p {
+  color: #444444;
+}
+
+@media (max-width: 600px) {
+  .trip-details {
+    padding: 25px 15px;
+  }
+
+  .trip-details h1 {
+    font-size: 25px;
+  }
+
+  .trip-details h2 {
+    font-size: 20px;
+  }
+
+  .details-card,
+  .trip-details .itinerary-card {
+    width: 100%;
+    padding: 18px;
+    box-sizing: border-box;
+  }
+}

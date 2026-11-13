@@ -1,0 +1,465 @@
+.planner-page {
+  min-height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #f5f3ff, #eef6ff);
+  color: #24213b;
+  font-family: Arial, sans-serif;
+}
+
+.planner-navbar {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.planner-logo,
+.back-home {
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.planner-logo {
+  color: #6554c0;
+  font-size: 22px;
+}
+
+.back-home {
+  color: #51469b;
+}
+
+.planner-container {
+  max-width: 760px;
+  margin: 55px auto;
+  padding: 36px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 15px 45px rgba(62, 48, 120, 0.12);
+  box-sizing: border-box;
+}
+
+.planner-heading {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.planner-icon {
+  font-size: 42px;
+}
+
+.planner-heading h1 {
+  font-size: 36px;
+  margin: 12px 0;
+  color: #302653;
+}
+
+.planner-heading p {
+  color: #77738b;
+  line-height: 1.6;
+}
+
+.planner-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 9px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #393451;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid #ddd8ee;
+  border-radius: 10px;
+  background: #faf9ff;
+  color: #302653;
+  font-size: 15px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #8270d6;
+  box-shadow: 0 0 0 3px rgba(130, 112, 214, 0.13);
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.generate-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7865d8, #a16bce);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.generate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(120, 101, 216, 0.25);
+}
+
+.planner-note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 26px;
+  color: #77738b;
+  font-size: 14px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .planner-page {
+    padding: 16px;
+  }
+
+  .planner-container {
+    margin: 35px auto;
+    padding: 24px 18px;
+  }
+
+  .planner-heading h1 {
+    font-size: 27px;
+  }
+
+  .planner-form {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  .planner-logo {
+    font-size: 17px;
+  }
+}
+
+.trip-results {
+  margin-top: 30px;
+  padding: 24px;
+  background: #f8f6ff;
+  border-radius: 16px;
+  color: #302653;
+}
+
+.trip-results h2 {
+  margin-top: 0;
+}
+
+.itinerary-card {
+  margin-top: 14px;
+  padding: 16px;
+  background: white;
+  border: 1px solid #e6e0fa;
+  border-radius: 12px;
+}
+
+.itinerary-card h4 {
+  margin: 0 0 8px;
+  color: #7865d8;
+}
+
+.itinerary-card p {
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .planner-page {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .planner-navbar {
+    padding: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .planner-container {
+    width: 100%;
+    padding: 20px 15px;
+    box-sizing: border-box;
+  }
+
+  .planner-heading h1 {
+    font-size: 26px;
+  }
+
+  .planner-form {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .planner-form .full-width {
+    grid-column: auto;
+  }
+
+  .trip-results {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .itinerary-card {
+    padding: 15px;
+  }
+}
+
+.planner-page {
+  min-height: 100vh;
+  padding: 24px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #f5f3ff, #eef6ff);
+  color: #24213b;
+  font-family: Arial, sans-serif;
+}
+
+.planner-navbar {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.planner-logo,
+.back-home {
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.planner-logo {
+  color: #6554c0;
+  font-size: 22px;
+}
+
+.back-home {
+  color: #51469b;
+}
+
+.planner-container {
+  max-width: 760px;
+  margin: 55px auto;
+  padding: 36px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 15px 45px rgba(62, 48, 120, 0.12);
+  box-sizing: border-box;
+}
+
+.planner-heading {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.planner-icon {
+  font-size: 42px;
+}
+
+.planner-heading h1 {
+  font-size: 36px;
+  margin: 12px 0;
+  color: #302653;
+}
+
+.planner-heading p {
+  color: #77738b;
+  line-height: 1.6;
+}
+
+.planner-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 9px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #393451;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 14px;
+  border: 1px solid #ddd8ee;
+  border-radius: 10px;
+  background: #faf9ff;
+  color: #302653;
+  font-size: 15px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #8270d6;
+  box-shadow: 0 0 0 3px rgba(130, 112, 214, 0.13);
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.generate-btn {
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7865d8, #a16bce);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.generate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(120, 101, 216, 0.25);
+}
+
+.planner-note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 26px;
+  color: #77738b;
+  font-size: 14px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .planner-page {
+    padding: 16px;
+  }
+
+  .planner-container {
+    margin: 35px auto;
+    padding: 24px 18px;
+  }
+
+  .planner-heading h1 {
+    font-size: 27px;
+  }
+
+  .planner-form {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: auto;
+  }
+
+  .planner-logo {
+    font-size: 17px;
+  }
+}
+
+.trip-results {
+  margin-top: 30px;
+  padding: 24px;
+  background: #f8f6ff;
+  border-radius: 16px;
+  color: #302653;
+}
+
+.trip-results h2 {
+  margin-top: 0;
+}
+
+.itinerary-card {
+  margin-top: 14px;
+  padding: 16px;
+  background: white;
+  border: 1px solid #e6e0fa;
+  border-radius: 12px;
+}
+
+.itinerary-card h4 {
+  margin: 0 0 8px;
+  color: #7865d8;
+}
+
+.itinerary-card p {
+  margin-bottom: 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .planner-page {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  .planner-navbar {
+    padding: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .planner-container {
+    width: 100%;
+    padding: 20px 15px;
+    box-sizing: border-box;
+  }
+
+  .planner-heading h1 {
+    font-size: 26px;
+  }
+
+  .planner-form {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .planner-form .full-width {
+    grid-column: auto;
+  }
+
+  .trip-results {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .itinerary-card {
+    padding: 15px;
+  }
+}
