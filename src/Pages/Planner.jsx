@@ -42,7 +42,7 @@ function Planner() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/generate-trip",
+        "https://travelsphereai-backend.onrender.com/api/generate-trip",
         {
           method: "POST",
           headers: {
@@ -97,7 +97,7 @@ function Planner() {
 
       try {
         const weatherResponse = await fetch(
-          `http://localhost:5000/api/weather?destination=${encodeURIComponent(destination)}`
+          `https://travelsphereai-backend.onrender.com/api/weather?destination=${encodeURIComponent(destination)}`
         );
 
         const weatherData = await weatherResponse.json();

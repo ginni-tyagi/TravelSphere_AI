@@ -31,7 +31,7 @@ function EditTrip() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/generate-trip",
+        "https://travelsphereai-backend.onrender.com/api/generate-trip",
         {
           method: "POST",
           headers: {

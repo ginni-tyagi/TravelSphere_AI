@@ -35,7 +35,7 @@ function NearbyPlaces() {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/nearby-places?destination=${encodeURIComponent(destination)}&category=${category}`
+        `https://travelsphereai-backend.onrender.com/api/nearby-places?destination=${encodeURIComponent(destination)}&category=${category}`
       );
 
       const data = await response.json();
