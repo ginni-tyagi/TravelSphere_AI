@@ -8,7 +8,7 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("email").value;
+    const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
 
     if (!email || !password) {
@@ -16,7 +16,27 @@ function Login() {
       return;
     }
 
+    const registeredUser = JSON.parse(
+      localStorage.getItem("registeredUser") || "null"
+    );
+
+    if (!registeredUser) {
+      alert("Account not found! Please Sign Up first.");
+      return;
+    }
+
+    if (email !== registeredUser.email) {
+      alert("Account not found! Please Sign Up first.");
+      return;
+    }
+
+    if (password !== registeredUser.password) {
+      alert("Incorrect password! Please try again.");
+      return;
+    }
+
     localStorage.setItem("loggedInUser", email);
+    localStorage.setItem("loggedInUserName", registeredUser.name);
 
     alert("Login successful!");
     navigate("/dashboard");

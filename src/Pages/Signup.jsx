@@ -10,20 +10,27 @@ function Signup() {
 
     const formData = new FormData(e.target);
 
-    const name = formData.get("name");
-    const email = formData.get("email");
+    const name = formData.get("name").trim();
+    const email = formData.get("email").trim().toLowerCase();
+    const password = formData.get("password");
 
-    const newUser = {
-      name,
-      email
-    };
+    const existingUser = JSON.parse(
+      localStorage.getItem("registeredUser") || "null"
+    );
+
+    if (existingUser && existingUser.email === email) {
+      alert("Account already exists! Please Login.");
+      navigate("/login");
+      return;
+    }
+
+    const newUser = { name, email, password };
 
     localStorage.setItem("registeredUser", JSON.stringify(newUser));
     localStorage.setItem("loggedInUser", email);
     localStorage.setItem("loggedInUserName", name);
 
     alert("Account created successfully!");
-
     navigate("/dashboard");
   };
 
