@@ -11,6 +11,7 @@ import EditTrip from "./Pages/EditTrip";
 import ExpenseTracker from "./Pages/ExpenseTracker";
 import SavedPlaces from "./Pages/SavedPlaces";
 import Profile from "./Pages/Profile";
+import NearbyPlaces from "./Pages/NearbyPlaces";
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
       <Route path="/expenses" element={<ExpenseTracker />} />
       <Route path="/saved-places" element={<SavedPlaces />} />
       <Route path="/profile" element={<Profile />} />
+
+      {/* Nearby Places */}
+      <Route path="/nearby-places" element={<NearbyPlaces />} />
+
     </Routes>
   );
 }

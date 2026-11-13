@@ -80,6 +80,10 @@ function Signup() {
             required
           />
 
+          <small className="password-hint">
+            Password must contain at least 6 characters.
+          </small>
+
           <button type="submit">Create Account</button>
 
         </form>

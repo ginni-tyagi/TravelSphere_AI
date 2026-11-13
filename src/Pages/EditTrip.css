@@ -1,0 +1,96 @@
+/* Edit Trip Page */
+.edit-trip-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+  background: #f8f7fc;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+}
+
+.edit-back {
+  color: #7865c9;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+/* Form Card */
+.edit-trip-card {
+  max-width: 550px;
+  margin: 25px auto;
+  padding: 30px;
+  background: white;
+  border: 1px solid #eee9fa;
+  border-radius: 18px;
+  box-shadow: 0 5px 20px #51418c15;
+}
+
+.edit-trip-card h1 {
+  text-align: center;
+  color: #51418c;
+  margin-bottom: 10px;
+}
+
+.edit-trip-card > p {
+  text-align: center;
+  color: #77718b;
+  margin-bottom: 25px;
+}
+
+/* Form */
+.edit-trip-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.edit-trip-card label {
+  color: #51418c;
+  font-weight: bold;
+}
+
+.edit-trip-card input,
+.edit-trip-card select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd5f3;
+  border-radius: 9px;
+  box-sizing: border-box;
+  font-size: 15px;
+  outline: none;
+}
+
+.edit-trip-card input:focus,
+.edit-trip-card select:focus {
+  border-color: #7865c9;
+}
+
+.edit-trip-card button {
+  margin-top: 15px;
+  padding: 13px;
+  background: linear-gradient(135deg, #7865d8, #a16bce);
+  color: white;
+  border: none;
+  border-radius: 9px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.edit-trip-card button:hover {
+  opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .edit-trip-page {
+    padding: 25px 15px;
+  }
+
+  .edit-trip-card {
+    padding: 22px 18px;
+  }
+
+  .edit-trip-card h1 {
+    font-size: 24px;
+  }
+}

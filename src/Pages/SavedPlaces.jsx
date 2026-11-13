@@ -12,19 +12,34 @@ function SavedPlaces() {
   const addPlace = (e) => {
     e.preventDefault();
 
-    if (places.includes(place.trim())) {
+    const name = place.trim();
+
+    if (!name) return;
+
+    const alreadySaved = places.some((item) =>
+      typeof item === "string"
+        ? item.toLowerCase() === name.toLowerCase()
+        : item.name?.toLowerCase() === name.toLowerCase()
+    );
+
+    if (alreadySaved) {
       alert("Place already saved!");
       return;
     }
 
-    const updated = [...places, place.trim()];
+    const updated = [...places, name];
+
     setPlaces(updated);
     localStorage.setItem("savedPlaces", JSON.stringify(updated));
     setPlace("");
   };
 
-  const removePlace = (name) => {
-    const updated = places.filter((item) => item !== name);
+  const removePlace = (id) => {
+    const updated = places.filter((item, index) => {
+      const itemId = typeof item === "string" ? item : item.id;
+      return (itemId || index) !== id;
+    });
+
     setPlaces(updated);
     localStorage.setItem("savedPlaces", JSON.stringify(updated));
   };
@@ -32,11 +47,12 @@ function SavedPlaces() {
   return (
     <div className="saved-places">
 
-  <Link to="/dashboard" className="back-dashboard">
-    ← Back to Dashboard
-  </Link>
+      <Link to="/dashboard" className="back-dashboard">
+        ← Back to Dashboard
+      </Link>
 
-  <h1>❤️ Favourite Places</h1>
+      <h1>❤️ Favourite Places</h1>
+
       <form onSubmit={addPlace}>
         <input
           value={place}
@@ -44,21 +60,56 @@ function SavedPlaces() {
           placeholder="Enter destination"
           required
         />
+
         <button type="submit">Save Place</button>
       </form>
 
       {places.length === 0 ? (
         <p>No favourite places saved yet!</p>
       ) : (
-        places.map((item) => (
-          <div className="place-card" key={item}>
-            <h3>📍 {item}</h3>
-            <button onClick={() => removePlace(item)}>
-              Remove
-            </button>
-          </div>
-        ))
+        <div className="saved-places-list">
+
+          {places.map((item, index) => {
+            const isObject = typeof item === "object";
+            const name = isObject ? item.name : item;
+            const address = isObject ? item.address : "";
+            const mapsUrl = isObject ? item.mapsUrl : "";
+
+            return (
+              <div
+                className="place-card"
+                key={isObject ? item.id || index : item}
+              >
+
+                <h3>📍 {name}</h3>
+
+                {address && <p>{address}</p>}
+
+                {mapsUrl && (
+                  <a
+                    href={mapsUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    View on Google Maps ↗
+                  </a>
+                )}
+
+                <button
+                  onClick={() =>
+                    removePlace(isObject ? item.id || index : item)
+                  }
+                >
+                  🗑️ Remove
+                </button>
+
+              </div>
+            );
+          })}
+
+        </div>
       )}
+
     </div>
   );
 }

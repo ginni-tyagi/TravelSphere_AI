@@ -1,9 +1,9 @@
-
+/* Main Page */
 .profile-page {
   min-height: 100vh;
   padding: 40px 20px;
   box-sizing: border-box;
-  background: #f5f3ff;
+  background: #f8f7fc;
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
@@ -11,38 +11,40 @@
 }
 
 .profile-page h1 {
-  color: #5b3fa3;
+  color: #51418c;
   margin-bottom: 25px;
+  font-size: 30px;
 }
 
+/* Back Button */
 .back-dashboard {
   align-self: flex-start;
-  color: #7655c5;
+  color: #7865c9;
   text-decoration: none;
   font-weight: bold;
   margin-bottom: 20px;
 }
 
 .back-dashboard:hover {
-  color: #5b3fa3;
+  color: #51418c;
 }
 
 /* Profile Form */
-
 .profile-page form {
   width: 100%;
   max-width: 500px;
   padding: 30px;
   box-sizing: border-box;
   background: white;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px #ddd;
+  border: 1px solid #eee9fa;
+  border-radius: 18px;
+  box-shadow: 0 5px 20px #51418c12;
 }
 
 .profile-page label {
   display: block;
-  margin-top: 15px;
-  color: #5b3fa3;
+  margin-top: 16px;
+  color: #51418c;
   font-weight: bold;
 }
 
@@ -51,43 +53,52 @@
   padding: 12px;
   margin-top: 8px;
   box-sizing: border-box;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  color: #222;
+  border: 1px solid #ddd5f3;
+  border-radius: 9px;
+  color: #302653;
   background: white;
+  outline: none;
 }
 
+.profile-page input:focus {
+  border-color: #7865c9;
+}
+
+/* Buttons */
 .profile-page button {
   width: 100%;
   margin-top: 25px;
-  padding: 12px;
-  background: #7655c5;
+  padding: 13px;
+  background: linear-gradient(135deg, #7865d8, #a16bce);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 9px;
   cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
 .profile-page button:hover {
-  background: #5b3fa3;
+  background: #5945b0;
+  transform: translateY(-2px);
 }
 
-/* Profile Dashboard Card */
-
+/* Profile Card */
 .profile-card {
   width: 100%;
   max-width: 550px;
   padding: 35px;
   background: white;
+  border: 1px solid #eee9fa;
   border-radius: 20px;
-  box-shadow: 0 5px 20px #ddd;
+  box-shadow: 0 5px 20px #51418c12;
   text-align: center;
   box-sizing: border-box;
 }
 
 .profile-avatar {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
   margin: auto;
   display: flex;
   align-items: center;
@@ -95,6 +106,14 @@
   background: #eee8ff;
   border-radius: 50%;
   font-size: 50px;
+  overflow: hidden;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .profile-card h2 {
@@ -103,19 +122,20 @@
 }
 
 .profile-subtitle {
-  color: #7655c5;
+  color: #7865c9;
   margin-bottom: 25px;
 }
 
+/* Profile Information */
 .profile-info {
-  background: #f8f6ff;
-  padding: 15px;
-  border-radius: 12px;
+  background: #f5f1ff;
+  padding: 18px;
+  border-radius: 13px;
   text-align: left;
 }
 
 .profile-info p {
-  color: #333;
+  color: #55516a;
   margin: 16px 0;
   line-height: 1.5;
   overflow-wrap: anywhere;
@@ -129,8 +149,34 @@
   max-width: 220px;
 }
 
-/* Responsive Design */
+/* Profile Picture Upload */
+.profile-upload {
+  text-align: center;
+  margin-bottom: 20px;
+}
 
+.profile-upload label {
+  display: block;
+  margin: 12px 0;
+  color: #51418c;
+}
+
+.profile-upload input {
+  background: #f8f6ff;
+  padding: 10px;
+}
+
+.profile-preview {
+  width: 110px;
+  height: 110px;
+  margin: 10px auto;
+  display: block;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #7865c9;
+}
+
+/* Responsive */
 @media (max-width: 600px) {
   .profile-page {
     padding: 25px 15px;
@@ -155,39 +201,4 @@
   .profile-card h2 {
     font-size: 22px;
   }
-}
-
-/* Profile Picture Upload */
-
-.profile-upload {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.profile-upload label {
-  display: block;
-  margin: 12px 0;
-  color: #5b3fa3;
-}
-
-.profile-upload input {
-  background: #f8f6ff;
-  padding: 10px;
-}
-
-.profile-preview {
-  width: 110px;
-  height: 110px;
-  margin: 10px auto;
-  display: block;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #7655c5;
-}
-
-.profile-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
 }

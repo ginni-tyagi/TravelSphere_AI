@@ -1,28 +1,33 @@
+/* Main Page */
 .saved-places {
   min-height: 100vh;
   padding: 40px 20px;
   box-sizing: border-box;
-  background: #f5f3ff;
+  background: #f8f7fc;
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
+/* Heading */
 .saved-places h1 {
-  color: #5b3fa3;
+  color: #51418c;
   text-align: center;
   margin-bottom: 25px;
+  font-size: 30px;
 }
 
+/* Add Place Form */
 .saved-places form {
   width: 100%;
-  max-width: 500px;
+  max-width: 550px;
   padding: 25px;
   box-sizing: border-box;
   background: white;
+  border: 1px solid #eee9fa;
   border-radius: 15px;
-  box-shadow: 0 4px 15px #ddd;
+  box-shadow: 0 5px 18px #51418c12;
   display: flex;
   gap: 10px;
 }
@@ -30,50 +35,105 @@
 .saved-places input {
   flex: 1;
   min-width: 0;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  padding: 13px;
+  border: 1px solid #ddd5f3;
+  border-radius: 9px;
+  outline: none;
 }
 
+.saved-places input:focus {
+  border-color: #7865c9;
+}
+
+/* Buttons */
 .saved-places button {
-  padding: 10px 15px;
-  background: #7655c5;
+  padding: 11px 17px;
+  background: linear-gradient(135deg, #7865d8, #a16bce);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 9px;
   cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
 }
 
 .saved-places button:hover {
-  background: #5b3fa3;
+  background: #5945b0;
+  transform: translateY(-2px);
 }
 
-.place-card {
+/* Saved Places List */
+.saved-places-list {
   width: 100%;
-  max-width: 500px;
-  box-sizing: border-box;
-  margin-top: 18px;
-  padding: 18px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px #ddd;
+  max-width: 650px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
 }
 
-.place-card h3 {
-  color: #5b3fa3;
+/* Place Cards */
+.place-card {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 18px;
+  padding: 22px;
+  background: white;
+  border: 1px solid #eee9fa;
+  border-radius: 14px;
+  box-shadow: 0 4px 15px #51418c10;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  transition: 0.3s;
 }
 
+.place-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px #51418c20;
+}
+
+.place-card h3 {
+  color: #51418c;
+  width: 100%;
+  margin: 0;
+}
+
+.place-card p {
+  color: #77718b;
+  font-size: 14px;
+  margin: 5px 0;
+  width: 100%;
+}
+
+.place-card a {
+  color: #7865c9;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.place-card a:hover {
+  color: #51418c;
+}
+
+/* Back Button */
 .back-dashboard {
   align-self: flex-start;
-  color: #7655c5;
+  color: #7865c9;
   text-decoration: none;
   font-weight: bold;
   margin-bottom: 20px;
 }
 
+/* Empty Message */
+.saved-places > p {
+  color: #77718b;
+  margin-top: 30px;
+}
+
+/* Responsive */
 @media (max-width: 600px) {
   .saved-places {
     padding: 25px 15px;
@@ -89,17 +149,16 @@
   }
 
   .saved-places input,
-  .saved-places button {
+  .saved-places form button {
     width: 100%;
     box-sizing: border-box;
   }
 
   .place-card {
-    padding: 15px;
-    gap: 10px;
+    padding: 17px;
   }
 
   .place-card h3 {
-    font-size: 16px;
+    font-size: 17px;
   }
 }

@@ -1,76 +1,105 @@
-
+/* My Trips Page */
 .my-trips {
   min-height: 100vh;
   padding: 40px 20px;
-  background: #f5f3ff;
+  background: #f8f7fc;
   font-family: Arial, sans-serif;
   text-align: center;
 }
 
 .my-trips h1 {
-  color: #5b3fa3;
+  color: #51418c;
+  font-size: 30px;
   margin-bottom: 20px;
 }
 
-.my-trips a {
-  color: #7655c5;
+.my-trips > a {
+  display: inline-block;
+  color: #7865c9;
   text-decoration: none;
-}
-
-.trip-card {
-  background: white;
-  padding: 25px;
-  margin: 20px auto;
-  border-radius: 15px;
-  width: 100%;
-  max-width: 600px;
-  box-shadow: 0 4px 15px #ddd;
-  box-sizing: border-box;
-}
-
-.trip-card h2 {
-  color: #5b3fa3;
+  font-weight: bold;
   margin-bottom: 15px;
 }
 
-.trip-card p {
-  color: #444;
-  margin: 12px 0;
+.my-trips > p {
+  color: #77718b;
+  margin-top: 35px;
 }
 
+/* Trip Card */
+.trip-card {
+  background: white;
+  padding: 28px;
+  margin: 22px auto;
+  border: 1px solid #eee9fa;
+  border-radius: 17px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: 0 5px 20px #51418c10;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+.trip-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 9px 25px #51418c20;
+}
+
+.trip-card h2 {
+  color: #51418c;
+  margin-bottom: 18px;
+}
+
+.trip-card p {
+  color: #55516a;
+  margin: 13px 0;
+  font-size: 15px;
+}
+
+/* Action Buttons */
 .trip-actions {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 23px;
 }
 
 .trip-actions a,
 .trip-actions button {
   display: inline-block;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-size: 15px;
+  padding: 11px 19px;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .trip-actions a {
-  background: #eee8ff;
-  color: #5b3fa3;
+  background: #eee9ff;
+  color: #5b48a1;
+}
+
+.trip-actions a:hover {
+  background: #dcd2ff;
+  transform: translateY(-2px);
 }
 
 .trip-actions button {
-  background: #e05252;
+  background: #e05268;
   color: white;
-  border: none;
-  cursor: pointer;
 }
 
 .trip-actions button:hover {
-  background: #c93636;
+  background: #c93650;
+  transform: translateY(-2px);
 }
 
+/* Responsive */
 @media (max-width: 600px) {
   .my-trips {
     padding: 25px 15px;
@@ -81,7 +110,7 @@
   }
 
   .trip-card {
-    padding: 18px;
+    padding: 20px 15px;
   }
 
   .trip-card h2 {
@@ -89,6 +118,11 @@
   }
 
   .trip-actions {
-    gap: 10px;
+    gap: 9px;
+  }
+
+  .trip-actions a,
+  .trip-actions button {
+    padding: 10px 14px;
   }
 }

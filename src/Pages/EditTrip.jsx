@@ -1,97 +1,151 @@
 import React, { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import "./EditTrip.css";
 
 function EditTrip() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const trips = JSON.parse(localStorage.getItem("myTrips") || "[]");
-  const trip = trips.find((item) => item.id === Number(id));
+  const trip = trips.find((item) => String(item.id) === id);
 
   const [destination, setDestination] = useState(trip?.destination || "");
   const [days, setDays] = useState(trip?.days || 1);
   const [budget, setBudget] = useState(trip?.budget || 1);
   const [travelers, setTravelers] = useState(trip?.travelers || 1);
   const [travelStyle, setTravelStyle] = useState(trip?.travelStyle || "");
+  const [loading, setLoading] = useState(false);
 
   if (!trip) {
     return (
-      <div>
+      <div className="edit-trip-page">
         <h2>Trip Not Found!</h2>
         <Link to="/my-trips">Back to My Trips</Link>
       </div>
     );
   }
 
-  const handleUpdate = (e) => {
+  const handleUpdate = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-   const updatedDays = Number(days);
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/generate-trip",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            destination,
+            days: Number(days),
+            budget: Number(budget),
+            travelers: Number(travelers),
+            travelStyle,
+          }),
+        }
+      );
 
-const itinerary = Array.from({ length: updatedDays }, (_, index) => ({
-  day: index + 1,
-  activity:
-    travelStyle === "adventure"
-      ? "Explore adventure activities and scenic viewpoints"
-      : travelStyle === "relaxation"
-      ? "Enjoy peaceful surroundings and relaxing experiences"
-      : travelStyle === "culture"
-      ? "Explore local culture and famous landmarks"
-      : "Discover local food markets and shopping spots",
-}));
+      const data = await response.json();
 
-const updatedTrip = {
-  ...trip,
-  destination,
-  days: updatedDays,
-  budget: Number(budget),
-  travelers: Number(travelers),
-  travelStyle,
-  itinerary,
-};
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to update trip.");
+      }
 
-    const updatedTrips = trips.map((item) =>
-      item.id === Number(id) ? updatedTrip : item
-    );
+      const updatedTrip = {
+        ...trip,
+        destination,
+        days: Number(days),
+        budget: Number(budget),
+        travelers: Number(travelers),
+        travelStyle,
+        itinerary: data.itinerary,
+      };
 
-    localStorage.setItem("myTrips", JSON.stringify(updatedTrips));
+      const updatedTrips = trips.map((item) =>
+        String(item.id) === id ? updatedTrip : item
+      );
 
-    alert("Trip updated successfully!");
-    navigate("/my-trips");
+      localStorage.setItem("myTrips", JSON.stringify(updatedTrips));
+
+      alert("Trip and itinerary updated successfully!");
+      navigate("/my-trips");
+
+    } catch (error) {
+      alert(error.message || "Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="my-trips">
-  <Link to="/dashboard" className="back-dashboard">
-    ← Back to Dashboard
-  </Link>
+    <div className="edit-trip-page">
 
-  <h1>✏️ Edit Your Trip</h1>
+      <Link to="/dashboard" className="edit-back">
+        ← Back to Dashboard
+      </Link>
 
-      <form onSubmit={handleUpdate}>
-        <p>Destination</p>
-        <input value={destination} onChange={(e) => setDestination(e.target.value)} required />
+      <div className="edit-trip-card">
 
-        <p>Number of Days</p>
-        <input type="number" min="1" value={days} onChange={(e) => setDays(e.target.value)} required />
+        <h1>✏️ Edit Your Trip</h1>
+        <p>Update your travel details below.</p>
 
-        <p>Budget (₹)</p>
-        <input type="number" min="1" value={budget} onChange={(e) => setBudget(e.target.value)} required />
+        <form onSubmit={handleUpdate}>
 
-        <p>Travelers</p>
-        <input type="number" min="1" value={travelers} onChange={(e) => setTravelers(e.target.value)} required />
+          <label>Destination</label>
+          <input
+            type="text"
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+            required
+          />
 
-        <p>Travel Style</p>
-        <select value={travelStyle} onChange={(e) => setTravelStyle(e.target.value)} required>
-          <option value="adventure">Adventure</option>
-          <option value="relaxation">Relaxation</option>
-          <option value="culture">Culture & Heritage</option>
-          <option value="food">Food & Shopping</option>
-        </select>
+          <label>Number of Days</label>
+          <input
+            type="number"
+            min="1"
+            value={days}
+            onChange={(e) => setDays(e.target.value)}
+            required
+          />
 
-        <br /><br />
-        <button type="submit">Save Changes</button>
-      </form>
+          <label>Budget (₹)</label>
+          <input
+            type="number"
+            min="1"
+            value={budget}
+            onChange={(e) => setBudget(e.target.value)}
+            required
+          />
+
+          <label>Travelers</label>
+          <input
+            type="number"
+            min="1"
+            value={travelers}
+            onChange={(e) => setTravelers(e.target.value)}
+            required
+          />
+
+          <label>Travel Style</label>
+          <select
+            value={travelStyle}
+            onChange={(e) => setTravelStyle(e.target.value)}
+            required
+          >
+            <option value="adventure">Adventure</option>
+            <option value="relaxation">Relaxation</option>
+            <option value="culture">Culture & Heritage</option>
+            <option value="food">Food & Shopping</option>
+          </select>
+
+          <button type="submit" disabled={loading}>
+            {loading ? "Generating Updated Itinerary..." : "Save Changes"}
+          </button>
+
+        </form>
+      </div>
     </div>
   );
 }
