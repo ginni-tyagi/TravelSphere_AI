@@ -75,7 +75,7 @@ function Planner() {
 
     setTrip(newTrip);
 
-    alert("Your trip has been generated and saved!");
+    //alert("Your trip has been generated and saved!");
   };
 
   return (
