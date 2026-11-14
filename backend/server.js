@@ -74,16 +74,7 @@ app.post("/api/generate-trip", async (req, res) => {
       - Do not include Markdown or code fences.
     `;
 
-    const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash-lite",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json"
-      }
-    });
-
-    const itinerary = JSON.parse(response.text);
-
+    v
     res.json({ itinerary });
 
   } catch (error) {
