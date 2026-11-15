@@ -11,7 +11,8 @@ function getWeatherDescription(code) {
     return "Rainy 🌧️";
   if ([71, 73, 75, 77, 85, 86].includes(code))
     return "Snowy ❄️";
-  if ([95, 96, 99].includes(code)) return "Thunderstorm ⛈️";
+  if ([95, 96, 99].includes(code))
+    return "Thunderstorm ⛈️";
   return "Weather Information";
 }
 
@@ -20,7 +21,42 @@ function Planner() {
   const [loading, setLoading] = useState(false);
   const [weather, setWeather] = useState(null);
   const [weatherLoading, setWeatherLoading] = useState(false);
+  const [weatherError, setWeatherError] = useState("");
 
+  // Fetch Weather
+  const fetchWeather = async (destination) => {
+    setWeatherLoading(true);
+    setWeatherError("");
+    setWeather(null);
+
+    try {
+      const response = await fetch(
+        `https://travelsphereai-backend.onrender.com/api/weather?destination=${encodeURIComponent(destination)}`
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Weather request failed");
+      }
+
+      if (!data.current || !data.daily?.time?.length) {
+        throw new Error("Weather data is incomplete.");
+      }
+
+      setWeather(data);
+
+    } catch (error) {
+      console.error("Weather Error:", error);
+      setWeatherError(
+        error.message || "Weather information is currently unavailable."
+      );
+    } finally {
+      setWeatherLoading(false);
+    }
+  };
+
+  // Generate Trip
   const handleGenerateTrip = async (e) => {
     e.preventDefault();
 
@@ -36,9 +72,10 @@ function Planner() {
     }
 
     setLoading(true);
-    setWeatherLoading(false);
     setTrip(null);
     setWeather(null);
+    setWeatherError("");
+    setWeatherLoading(false);
 
     try {
       const response = await fetch(
@@ -70,7 +107,7 @@ function Planner() {
           : data.itinerary;
 
       if (!itinerary || !Array.isArray(itinerary.days)) {
-        throw new Error("Invalid itinerary received. Please try again.");
+        throw new Error("Invalid itinerary received.");
       }
 
       const newTrip = {
@@ -89,34 +126,19 @@ function Planner() {
 
       savedTrips.push(newTrip);
 
-      localStorage.setItem("myTrips", JSON.stringify(savedTrips));
+      localStorage.setItem(
+        "myTrips",
+        JSON.stringify(savedTrips)
+      );
+
       setTrip(newTrip);
 
-      // Fetch destination weather
-      setWeatherLoading(true);
-
-      try {
-        const weatherResponse = await fetch(
-          `https://travelsphereai-backend.onrender.com/api/weather?destination=${encodeURIComponent(destination)}`
-        );
-
-        const weatherData = await weatherResponse.json();
-
-        if (!weatherResponse.ok) {
-          throw new Error(weatherData.error || "Weather unavailable");
-        }
-
-        setWeather(weatherData);
-
-      } catch (error) {
-        console.error("Weather Error:", error);
-      } finally {
-        setWeatherLoading(false);
-      }
+      // Fetch weather separately
+      fetchWeather(destination);
 
     } catch (error) {
       console.error("Trip Generation Error:", error);
-      alert(error.message || "Unable to generate trip. Please try again.");
+      alert(error.message || "Unable to generate trip.");
     } finally {
       setLoading(false);
     }
@@ -126,6 +148,7 @@ function Planner() {
     <div className="planner-page">
 
       <nav className="planner-navbar">
+
         <Link to="/dashboard" className="planner-logo">
           ✈️ TravelSphereAI
         </Link>
@@ -133,6 +156,7 @@ function Planner() {
         <Link to="/dashboard" className="back-home">
           ← Dashboard
         </Link>
+
       </nav>
 
       <div className="planner-container">
@@ -142,6 +166,8 @@ function Planner() {
           <h1>Plan Your Dream Trip</h1>
           <p>Enter your preferences and create your next adventure.</p>
         </div>
+
+        {/* Trip Form */}
 
         <form className="planner-form" onSubmit={handleGenerateTrip}>
 
@@ -191,6 +217,7 @@ function Planner() {
 
           <div className="form-group full-width">
             <label>Travel Style</label>
+
             <select name="travelStyle" required>
               <option value="">Select Travel Style</option>
               <option value="Adventure">Adventure</option>
@@ -219,28 +246,37 @@ function Planner() {
           💜 Your next adventure is just one click away!
         </div>
 
+        {/* Generated Trip */}
+
         {trip && (
           <div className="trip-results">
 
-            <h2>✨ Your AI Trip to {trip.destination}</h2>
+            <h2>✨ Your Trip to {trip.destination}</h2>
 
             <p>📅 Duration: {trip.days} days</p>
-            <p>💰 Total Budget: ₹{trip.budget.toLocaleString("en-IN")}</p>
+
+            <p>
+              💰 Total Budget: ₹
+              {trip.budget.toLocaleString("en-IN")}
+            </p>
+
             <p>👥 Travelers: {trip.travelers}</p>
+
             <p>🎯 Travel Style: {trip.travelStyle}</p>
 
-            {/* Itinerary Overview */}
-            <h3>✨ Your AI Generated Itinerary</h3>
+            <h3>✨ Your Itinerary</h3>
 
             <div className="itinerary-overview">
               <h2>{trip.itinerary.title}</h2>
               <p>{trip.itinerary.summary}</p>
             </div>
 
-            {/* Day-wise Itinerary Cards */}
+            {/* Day-wise Itinerary */}
+
             <div className="day-cards">
 
               {trip.itinerary.days.map((day, index) => (
+
                 <div className="day-card" key={day.day || index}>
 
                   <div className="day-card-header">
@@ -250,6 +286,7 @@ function Planner() {
 
                   <div className="day-detail">
                     <h4>📍 Places to Visit</h4>
+
                     {(day.places || []).map((place, i) => (
                       <p key={i}>• {place}</p>
                     ))}
@@ -257,6 +294,7 @@ function Planner() {
 
                   <div className="day-detail">
                     <h4>🎯 Activities</h4>
+
                     {(day.activities || []).map((activity, i) => (
                       <p key={i}>• {activity}</p>
                     ))}
@@ -264,33 +302,38 @@ function Planner() {
 
                   <div className="day-detail">
                     <h4>🍽️ Food Recommendations</h4>
+
                     {(day.food || []).map((food, i) => (
                       <p key={i}>• {food}</p>
                     ))}
                   </div>
 
                   <div className="day-bottom">
+
                     <p>
-                      💰 Estimated Expense: {day.estimatedExpense || "Not available"}
+                      💰 Estimated Expense:{" "}
+                      {day.estimatedExpense || "Not available"}
                     </p>
 
                     <p>
                       💡 {day.tip || "Enjoy your journey!"}
                     </p>
+
                   </div>
 
                 </div>
+
               ))}
 
             </div>
 
-            {/* Total Estimated Expense */}
             <div className="total-expense">
               💵 Total Estimated Expense:{" "}
               {trip.itinerary.totalEstimatedExpense || "Not available"}
             </div>
 
             {/* Weather Section */}
+
             <div className="weather-section">
 
               <h2>
@@ -301,8 +344,23 @@ function Planner() {
                 <p>Loading weather information...</p>
               )}
 
+              {!weatherLoading && weatherError && (
+                <div>
+                  <p>{weatherError}</p>
+
+                  <button
+                    type="button"
+                    className="generate-btn"
+                    onClick={() => fetchWeather(trip.destination)}
+                  >
+                    Try Weather Again
+                  </button>
+                </div>
+              )}
+
               {!weatherLoading && weather && (
                 <>
+
                   <p>{weather.country}</p>
 
                   <div className="weather-current">
@@ -312,19 +370,24 @@ function Planner() {
                     </h1>
 
                     <h3>
-                      {getWeatherDescription(weather.current.weather_code)}
+                      {getWeatherDescription(
+                        weather.current.weather_code
+                      )}
                     </h3>
 
                     <p>
-                      Feels Like: {weather.current.apparent_temperature}°C
+                      Feels Like:{" "}
+                      {weather.current.apparent_temperature}°C
                     </p>
 
                     <p>
-                      💧 Humidity: {weather.current.relative_humidity_2m}%
+                      💧 Humidity:{" "}
+                      {weather.current.relative_humidity_2m}%
                     </p>
 
                     <p>
-                      💨 Wind: {weather.current.wind_speed_10m} km/h
+                      💨 Wind:{" "}
+                      {weather.current.wind_speed_10m} km/h
                     </p>
 
                   </div>
@@ -334,6 +397,7 @@ function Planner() {
                   <div className="weather-forecast">
 
                     {weather.daily.time.map((date, index) => (
+
                       <div className="forecast-card" key={date}>
 
                         <h4>
@@ -353,23 +417,30 @@ function Planner() {
                         </p>
 
                         <strong>
-                          {Math.round(weather.daily.temperature_2m_max[index])}°
-                          / {Math.round(weather.daily.temperature_2m_min[index])}°C
+                          {Math.round(
+                            weather.daily.temperature_2m_max[index]
+                          )}°
+                          /
+                          {Math.round(
+                            weather.daily.temperature_2m_min[index]
+                          )}°C
                         </strong>
 
                         <p>
                           🌧️ Rain:{" "}
-                          {weather.daily.precipitation_probability_max[index]}%
+                          {weather.daily.precipitation_probability_max?.[index] ?? "N/A"}%
                         </p>
 
                       </div>
+
                     ))}
 
                   </div>
+
                 </>
               )}
 
-              {!weatherLoading && !weather && (
+              {!weatherLoading && !weather && !weatherError && (
                 <p>Weather information is currently unavailable.</p>
               )}
 

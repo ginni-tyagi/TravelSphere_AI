@@ -7,13 +7,20 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Home Route
+
+// ===============================
+// HOME ROUTE
+// ===============================
+
 app.get("/", (req, res) => {
   res.send("TravelSphereAI Backend is Running!");
 });
 
 
-// AI Trip Generator
+// ===============================
+// AI TRIP GENERATOR
+// ===============================
+
 app.post("/api/generate-trip", async (req, res) => {
   try {
     const {
@@ -69,12 +76,27 @@ app.post("/api/generate-trip", async (req, res) => {
       - Keep expenses within the given budget.
       - Make the itinerary realistic and useful.
       - All expenses must be estimates.
-      - Do not include payment gateway information,
-        payment instructions, or unrelated content.
       - Do not include Markdown or code fences.
     `;
 
-    v
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: prompt
+    });
+
+    let responseText = response.text;
+
+    responseText = responseText
+      .replace(/```json/gi, "")
+      .replace(/```/g, "")
+      .trim();
+
+    const itinerary = JSON.parse(responseText);
+
+    if (!itinerary || !Array.isArray(itinerary.days)) {
+      throw new Error("Invalid itinerary received from AI.");
+    }
+
     res.json({ itinerary });
 
   } catch (error) {
@@ -87,7 +109,10 @@ app.post("/api/generate-trip", async (req, res) => {
 });
 
 
-// Weather API
+// ===============================
+// WEATHER API - OPEN METEO
+// ===============================
+
 app.get("/api/weather", async (req, res) => {
   try {
     const { destination } = req.query;
@@ -98,13 +123,19 @@ app.get("/api/weather", async (req, res) => {
       });
     }
 
+    console.log("Weather requested for:", destination);
+
+    // STEP 1: GET DESTINATION COORDINATES
+
     const geoURL =
       `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(destination)}&count=1&language=en&format=json`;
 
     const geoResponse = await fetch(geoURL);
 
     if (!geoResponse.ok) {
-      throw new Error("Unable to find destination.");
+      throw new Error(
+        `Geocoding API error: ${geoResponse.status}`
+      );
     }
 
     const geoData = await geoResponse.json();
@@ -117,16 +148,28 @@ app.get("/api/weather", async (req, res) => {
 
     const place = geoData.results[0];
 
+    console.log("Destination found:", place.name);
+
+    // STEP 2: GET WEATHER FORECAST
+
     const weatherURL =
       `https://api.open-meteo.com/v1/forecast?latitude=${place.latitude}&longitude=${place.longitude}&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&forecast_days=7&timezone=auto`;
 
     const weatherResponse = await fetch(weatherURL);
 
     if (!weatherResponse.ok) {
-      throw new Error("Unable to fetch weather data.");
+      throw new Error(
+        `Weather API error: ${weatherResponse.status}`
+      );
     }
 
     const weatherData = await weatherResponse.json();
+
+    if (!weatherData.current || !weatherData.daily) {
+      throw new Error("Weather data is incomplete.");
+    }
+
+    console.log("Weather fetched successfully!");
 
     res.json({
       destination: place.name,
@@ -136,29 +179,30 @@ app.get("/api/weather", async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Weather Error:", error);
+    console.error("Weather Error Details:", error);
 
     res.status(500).json({
-      error: "Unable to fetch weather information."
+      error: error.message || "Unable to fetch weather information."
     });
   }
 });
 
 
-// Real Place Images - Wikimedia Commons
+// ===============================
+// REAL PLACE IMAGES - WIKIMEDIA
+// ===============================
 
 const imageCache = new Map();
 
 async function getPlaceImage(placeName, destination) {
   try {
-
-    const cacheKey = `${placeName}-${destination}`.toLowerCase();
+    const cacheKey =
+      `${placeName}-${destination}`.toLowerCase();
 
     if (imageCache.has(cacheKey)) {
       return imageCache.get(cacheKey);
     }
 
-    // Search using the exact place name
     const params = new URLSearchParams({
       action: "query",
       generator: "search",
@@ -186,9 +230,10 @@ async function getPlaceImage(placeName, destination) {
 
     const data = await response.json();
 
-    const images = Object.values(data.query?.pages || {});
+    const images = Object.values(
+      data.query?.pages || {}
+    );
 
-    // Normalize names for strict matching
     const normalize = (value) =>
       value
         .toLowerCase()
@@ -202,10 +247,7 @@ async function getPlaceImage(placeName, destination) {
       .split(" ")
       .filter(word => word.length > 2);
 
-    // Accept only images whose titles contain
-    // all meaningful words from the place name
     const matchedImage = images.find(item => {
-
       const title = normalize(item.title || "");
 
       const hasMatchingName = requiredWords.every(word =>
@@ -232,7 +274,9 @@ async function getPlaceImage(placeName, destination) {
 }
 
 
-// Nearby Places API - Geoapify
+// ===============================
+// NEARBY PLACES API - GEOAPIFY
+// ===============================
 
 app.get("/api/nearby-places", async (req, res) => {
   try {
@@ -272,8 +316,7 @@ app.get("/api/nearby-places", async (req, res) => {
       });
     }
 
-
-    // Find destination coordinates
+    // STEP 1: FIND DESTINATION
 
     const geoURL =
       `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(destination)}&count=10&language=en&format=json`;
@@ -292,8 +335,7 @@ app.get("/api/nearby-places", async (req, res) => {
       });
     }
 
-
-    // Select correct destination
+    // STEP 2: SELECT LOCATION
 
     let location;
 
@@ -319,8 +361,7 @@ app.get("/api/nearby-places", async (req, res) => {
     const lat = location.latitude;
     const lon = location.longitude;
 
-
-    // Search places using Geoapify
+    // STEP 3: SEARCH NEARBY PLACES
 
     const params = new URLSearchParams({
       categories: categories[category],
@@ -355,8 +396,7 @@ app.get("/api/nearby-places", async (req, res) => {
 
     const placesData = await placesResponse.json();
 
-
-    // Get places and matching photographs
+    // STEP 4: GET PLACE IMAGES
 
     const places = await Promise.all(
       (placesData.features || [])
@@ -395,7 +435,6 @@ app.get("/api/nearby-places", async (req, res) => {
         })
     );
 
-
     res.json({
       destination: location.name,
       country: location.country,
@@ -413,7 +452,9 @@ app.get("/api/nearby-places", async (req, res) => {
 });
 
 
-// Start Server
+// ===============================
+// START SERVER
+// ===============================
 
 const PORT = process.env.PORT || 5000;
 
