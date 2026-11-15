@@ -133,9 +133,11 @@ app.get("/api/weather", async (req, res) => {
     const geoResponse = await fetch(geoURL);
 
     if (!geoResponse.ok) {
-      throw new Error(
-        `Geocoding API error: ${geoResponse.status}`
-      );
+      const errorText = await geoResponse.text();
+
+      console.error("Geocoding API Error:", geoResponse.status, errorText);
+
+      throw new Error("Unable to find destination.");
     }
 
     const geoData = await geoResponse.json();
@@ -158,8 +160,16 @@ app.get("/api/weather", async (req, res) => {
     const weatherResponse = await fetch(weatherURL);
 
     if (!weatherResponse.ok) {
+      const errorText = await weatherResponse.text();
+
+      console.error(
+        "Open-Meteo Forecast Error:",
+        weatherResponse.status,
+        errorText
+      );
+
       throw new Error(
-        `Weather API error: ${weatherResponse.status}`
+        `Weather API failed with status ${weatherResponse.status}: ${errorText}`
       );
     }
 
